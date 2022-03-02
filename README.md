@@ -1,13 +1,6 @@
 ![YAMdb workflow](https://github.com/maskalev/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 # Foodgram
 
-[//]: # (http://84.201.154.101/)
-
-[//]: # ()
-[//]: # (Документация API доступна на http://84.201.154.101/swagger/ или http://84.201.154.101/redoc/)
-
-[//]: # ()
-[//]: # (UPD В данный момент сервис не доступен)
 
 Foodgram («Продуктовый помощник») - дипломный проект в [Я.Практикуме](https://practicum.yandex.ru/). Мной написаны бэкенд и API для него.
 Работает на Django 3.2 и PostgreSQL.
@@ -53,3 +46,39 @@ Foodgram («Продуктовый помощник») - дипломный пр
 3. Редактировать/удалять любые рецепты
 4. Добавлять/удалять/редактировать ингредиенты
 5. Добавлять/удалять/редактировать теги
+
+## Как запустить проект локально
+1. Скопируйте проект
+
+`git clone git@github.com:maskalev/foodgram-project-react.git`
+
+2. В корне проекта создайте файл .env
+
+`DJANGO_SECRET_KEY='django-secret-key'`
+`DB_ENGINE=django.db.backends.postgresql`
+`DB_NAME=postgres`
+`POSTGRES_USER=foodgram_server_user`
+`POSTGRES_PASSWORD=foodgram_server_password`
+`DB_HOST=db`
+`DB_PORT=5432`
+
+3. Запустите проект
+`docker-compose up -d`
+
+4. Выполните миграции
+`docker-compose exec -T web python3 manage.py makemigrations users --no-input`
+`docker-compose exec -T web python3 manage.py makemigrations recipes --no-input`
+`docker-compose exec -T web python3 manage.py migrate --no-input`
+
+5. Соберите статику
+`docker-compose exec -T web python3 manage.py collectstatic --no-input`
+
+6. Перезапустите проект
+`docker-compose restart`
+
+7. Скопируйте данные
+`docker-compose exec -T web python manage.py loaddata -e=auth -e=contenttypes fixtures.json`
+
+8. Логин/пароль суперпользователя: root/admin
+
+Теперь вы можете записывать свои рецепты и пользоваться другими фунециями сервиса!
